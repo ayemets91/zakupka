@@ -3,104 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Списки закупівлі</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Закупівля</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f0f;
-    --card: #1a1a1a;
-    --accent: #e8c96d;
-    --accent2: #c97d3a;
-    --text: #f0ece0;
-    --muted: #888;
-    --border: #2a2a2a;
+    --bg:       #111114;
+    --surface:  #18181c;
+    --card:     #1e1e23;
+    --border:   #2a2a32;
+    --neon:     #b8ff57;
+    --neon-dim: rgba(184,255,87,0.12);
+    --neon-glow:rgba(184,255,87,0.25);
+    --text:     #f2f2f4;
+    --muted:    #5a5a68;
+    --sub:      #3a3a46;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
     min-height: 100vh;
-    padding-bottom: 40px;
+    padding-bottom: 60px;
   }
 
+  /* ── HEADER ── */
   header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
-    border-bottom: 2px solid var(--accent);
-    padding: 20px 20px 16px;
     position: sticky;
     top: 0;
-    z-index: 100;
-  }
-
-  .header-top {
+    z-index: 50;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
   .back-btn {
+    display: none;
     background: none;
     border: none;
-    color: var(--accent);
-    font-size: 22px;
+    color: var(--neon);
+    font-size: 20px;
     cursor: pointer;
-    padding: 4px 8px 4px 0;
-    display: none;
-  }
-
-  .header-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
-    color: var(--accent);
+    padding: 0 8px 0 0;
     line-height: 1;
   }
 
-  .header-sub {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
+  .header-text {}
+
+  .header-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
     text-transform: uppercase;
-    margin-top: 4px;
+    color: var(--neon);
+    opacity: 0.7;
+    margin-bottom: 3px;
   }
 
-  /* SUPPLIER LIST */
-  .suppliers-screen, .items-screen {
-    padding: 20px 16px;
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
   }
 
-  .items-screen { display: none; }
+  /* ── SCREENS ── */
+  .screen { padding: 20px 16px; }
+  #itemsScreen { display: none; }
+
+  /* ── SUPPLIER CARDS ── */
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
 
   .supplier-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 16px 18px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .supplier-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: var(--accent);
-    border-radius: 12px 0 0 12px;
+    transition: border-color 0.18s, background 0.18s, transform 0.12s;
+    animation: fadeUp 0.3s ease both;
   }
 
   .supplier-card:active {
-    transform: scale(0.98);
-    border-color: var(--accent);
+    transform: scale(0.982);
+    border-color: var(--neon);
+    background: #21212a;
   }
 
   .supplier-left {
@@ -113,6 +119,8 @@
     width: 44px;
     height: 44px;
     border-radius: 10px;
+    background: var(--sub);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,403 +129,232 @@
   }
 
   .supplier-name {
-    font-weight: 600;
-    font-size: 15px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--text);
+    letter-spacing: -0.2px;
   }
 
   .supplier-count {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     margin-top: 2px;
+    font-weight: 400;
   }
 
   .supplier-arrow {
-    color: var(--accent);
-    font-size: 18px;
-  }
-
-  /* ITEMS SCREEN */
-  .items-header {
-    margin-bottom: 20px;
-  }
-
-  .items-supplier-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
-    color: var(--accent);
-  }
-
-  .items-count {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .item-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .item-row.checked {
-    border-color: #2a3d2a;
-    background: #161e16;
-  }
-
-  .item-row.checked .item-name {
-    text-decoration: line-through;
-    color: var(--muted);
-  }
-
-  .item-checkbox {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    border: 2px solid var(--border);
-    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--neon-dim);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    background: transparent;
+    color: var(--neon);
+    font-size: 16px;
+    font-weight: 300;
   }
 
-  .item-row.checked .item-checkbox {
-    background: #3a7d3a;
-    border-color: #3a7d3a;
+  /* ── ITEMS HERO ── */
+  .items-hero {
+    margin-bottom: 24px;
   }
 
-  .item-checkbox::after {
-    content: '✓';
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-    display: none;
+  .items-tag {
+    display: inline-block;
+    background: var(--neon-dim);
+    border: 1px solid rgba(184,255,87,0.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 12px;
   }
 
-  .item-row.checked .item-checkbox::after {
-    display: block;
+  .items-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .items-count {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── DIVIDER ── */
+  .hero-divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--neon) 0%, transparent 60%);
+    opacity: 0.25;
+    margin: 16px 0 20px;
+  }
+
+  /* ── ITEM ROWS ── */
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.25s ease both;
+  }
+
+  .item-row:last-child { border-bottom: none; }
+
+  .item-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    width: 20px;
+    flex-shrink: 0;
+    text-align: right;
   }
 
   .item-name {
     font-size: 14px;
-    font-weight: 500;
-    flex: 1;
-    transition: all 0.2s ease;
+    font-weight: 400;
+    color: var(--text);
+    opacity: 0.85;
+    line-height: 1.4;
   }
 
-  .progress-bar-wrap {
-    background: var(--border);
-    border-radius: 4px;
-    height: 4px;
-    margin-top: 12px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    border-radius: 4px;
-    transition: width 0.3s ease;
-    width: 0%;
-  }
-
-  .progress-text {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 6px;
-    text-align: right;
-  }
-
-  .reset-btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    border-radius: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .reset-btn:active {
-    border-color: var(--accent2);
-    color: var(--accent2);
-  }
-
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 16px 0 8px;
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <button class="back-btn" id="backBtn" onclick="showSuppliers()">←</button>
-    <div>
-      <div class="header-title" id="headerTitle">Списки закупівлі</div>
-      <div class="header-sub" id="headerSub">Оберіть постачальника</div>
-    </div>
+  <button class="back-btn" id="backBtn" onclick="showSuppliers()">←</button>
+  <div class="header-text">
+    <div class="header-eyebrow" id="headerEyebrow">Ресторан</div>
+    <div class="header-title" id="headerTitle">Списки закупівлі</div>
   </div>
 </header>
 
-<!-- SUPPLIERS LIST -->
-<div class="suppliers-screen" id="suppliersScreen">
-  <div class="section-label">Постачальники</div>
-</div>
+<div class="screen" id="suppliersScreen"></div>
 
-<!-- ITEMS SCREEN -->
-<div class="items-screen" id="itemsScreen">
-  <div class="items-header">
-    <div class="items-supplier-name" id="itemsTitle"></div>
+<div class="screen" id="itemsScreen">
+  <div class="items-hero">
+    <div class="items-tag">Постачальник</div>
+    <div class="items-title" id="itemsTitle"></div>
     <div class="items-count" id="itemsCount"></div>
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-text" id="progressText"></div>
   </div>
+  <div class="hero-divider"></div>
   <div id="itemsList"></div>
-  <button class="reset-btn" onclick="resetCurrent()">↺ Скинути відмітки</button>
 </div>
 
 <script>
 const suppliers = [
   {
-    id: 'horeca',
-    name: 'Хорека',
-    icon: '🥩',
-    color: '#c97d3a',
+    id: 'horeca', name: 'Хорека', emoji: '🥩',
     items: [
-      'Манго пюре с.м.',
-      'Маракуя пюре (з кісточкою) с.м.',
-      'Сир Філадельфія (креметта)',
-      'Помідори пілатті',
-      'Прошуто',
-      'Ковбаса Чорізо',
-      'Сир маасдам',
-      'Оливкова олія 5 л',
-      'Соус Теріякі',
-      'Пармезан',
-      'Кокосове молоко (банка)',
-      'Кальмар трубка с.м.',
-      'Мідії у стулках',
-      'Тунець філе',
-      'Соус солодкий чилі'
+      'Манго пюре с.м.','Маракуя пюре (з кісточкою) с.м.','Сир Філадельфія (креметта)',
+      'Помідори пілатті','Прошуто','Ковбаса Чорізо','Сир маасдам','Оливкова олія 5 л',
+      'Соус Теріякі','Пармезан','Кокосове молоко (банка)','Кальмар трубка с.м.',
+      'Мідії у стулках','Тунець філе','Соус солодкий чилі'
     ]
   },
   {
-    id: 'zamorozka',
-    name: 'Заморозка',
-    icon: '🧊',
-    color: '#4a9aba',
+    id: 'zamorozka', name: 'Заморозка', emoji: '🧊',
     items: [
-      'Морозиво ванільне',
-      'Морозиво шоколадне',
-      'Полуниця с.м.',
-      'Малина с.м.',
-      'Обліпиха с.м.',
-      'Вишня с.м.',
-      'Зелений горошок с.м.',
-      'Спаржева квасоля довга с.м.',
-      'Мідії (без раковин) с.м.',
-      'Шпинат рубаний с.м.',
-      'Броколі с.м.',
-      'Манго кубик с.м.'
+      'Морозиво ванільне','Морозиво шоколадне','Полуниця с.м.','Малина с.м.',
+      'Обліпиха с.м.','Вишня с.м.','Зелений горошок с.м.','Спаржева квасоля довга с.м.',
+      'Мідії (без раковин) с.м.','Шпинат рубаний с.м.','Броколі с.м.','Манго кубик с.м.'
     ]
   },
   {
-    id: 'sushi',
-    name: 'Сушіпродукт',
-    icon: '🍣',
-    color: '#c94a4a',
+    id: 'sushi', name: 'Сушіпродукт', emoji: '🍣',
     items: [
-      'Креветки',
-      'Норі',
-      'Сухарі Панко',
-      'Оцет рисовий',
-      'Локшина скляна',
-      'Соус Шрірача',
-      'Рис для суші',
-      'Чука',
-      'Ікра тобіко'
+      'Креветки','Норі','Сухарі Панко','Оцет рисовий','Локшина скляна',
+      'Соус Шрірача','Рис для суші','Чука','Ікра тобіко'
     ]
   },
   {
-    id: 'spices',
-    name: 'Мир спецій',
-    icon: '🌿',
-    color: '#5a9a5a',
+    id: 'spices', name: 'Мир спецій', emoji: '🌿',
     items: [
-      'Диня цукат',
-      'Райське яблуко',
-      'Фінік',
-      'Чорнослив',
-      'Журавлина сушена',
-      'Грецький горіх метелик',
-      'Горіх кешью',
-      'Мигдаль',
-      'Арахіс бланшований',
-      'Гарбузове насіння',
-      'Кунжут білий',
-      'Кунжут чорний',
-      'Чіа',
-      'Кіноа червоне',
-      'Нитки чилі',
-      'Перець чорний мелений',
-      'Перець білий мелений',
-      'Спеції барбекю',
-      'Базилік сушений',
-      'Орегано сушений',
-      'Чилі різаний копчений',
-      'Чебрець сушений',
-      'Паприка копчена мелена',
-      'Насіння льону',
-      'Сумах',
-      'Каєнський перець мелений',
-      'Чорний перець горошок',
-      'Духмяний перець',
-      'Лавровий лист',
-      'Куркума',
-      'Коріандр мелений',
-      'Зіра мелена',
-      'Майоран сушений',
-      'Кориця мелена',
-      'Горіх мускатний мелений',
-      'Цукор тростинний',
-      'Глутамат',
-      'Мигдальний горіх смажений',
-      'Нут',
-      'Мигдальні пластівці',
-      'Розмарин сушений',
-      'Фундук смажений',
-      'Приправа для ребер'
+      'Диня цукат','Райське яблуко','Фінік','Чорнослив','Журавлина сушена',
+      'Грецький горіх метелик','Горіх кешью','Мигдаль','Арахіс бланшований',
+      'Гарбузове насіння','Кунжут білий','Кунжут чорний','Чіа','Кіноа червоне',
+      'Нитки чилі','Перець чорний мелений','Перець білий мелений','Спеції барбекю',
+      'Базилік сушений','Орегано сушений','Чилі різаний копчений','Чебрець сушений',
+      'Паприка копчена мелена','Насіння льону','Сумах','Каєнський перець мелений',
+      'Чорний перець горошок','Духмяний перець','Лавровий лист','Куркума',
+      'Коріандр мелений','Зіра мелена','Майоран сушений','Кориця мелена',
+      'Горіх мускатний мелений','Цукор тростинний','Глутамат','Мигдальний горіх смажений',
+      'Нут','Мигдальні пластівці','Розмарин сушений','Фундук смажений','Приправа для ребер'
     ]
   }
 ];
 
-let currentSupplier = null;
-let checked = {};
-
-// Load from localStorage
-try {
-  const saved = localStorage.getItem('zakupka_checked');
-  if (saved) checked = JSON.parse(saved);
-} catch(e) {}
-
-function saveChecked() {
-  try { localStorage.setItem('zakupka_checked', JSON.stringify(checked)); } catch(e) {}
-}
-
 function renderSuppliers() {
   const screen = document.getElementById('suppliersScreen');
-  screen.innerHTML = '<div class="section-label">Постачальники</div>';
-  
-  suppliers.forEach(s => {
-    const total = s.items.length;
-    const done = (checked[s.id] || []).length;
-    
+  screen.innerHTML = `<div class="section-label">Постачальники — ${suppliers.length} категорії</div>`;
+  suppliers.forEach((s, i) => {
     const card = document.createElement('div');
     card.className = 'supplier-card';
+    card.style.animationDelay = `${i * 0.07}s`;
     card.innerHTML = `
       <div class="supplier-left">
-        <div class="supplier-icon" style="background:${s.color}22">${s.icon}</div>
+        <div class="supplier-icon">${s.emoji}</div>
         <div>
           <div class="supplier-name">${s.name}</div>
-          <div class="supplier-count">${done > 0 ? `${done} з ${total} відмічено` : `${total} позицій`}</div>
+          <div class="supplier-count">${s.items.length} позицій</div>
         </div>
       </div>
       <div class="supplier-arrow">›</div>
     `;
-    card.style.setProperty('--accent', s.color);
     card.onclick = () => showItems(s.id);
     screen.appendChild(card);
   });
 }
 
 function showItems(id) {
-  currentSupplier = suppliers.find(s => s.id === id);
-  
+  const s = suppliers.find(x => x.id === id);
   document.getElementById('suppliersScreen').style.display = 'none';
   document.getElementById('itemsScreen').style.display = 'block';
   document.getElementById('backBtn').style.display = 'block';
-  document.getElementById('headerTitle').textContent = currentSupplier.name;
-  document.getElementById('headerSub').textContent = 'Список товарів';
-  document.getElementById('itemsTitle').textContent = currentSupplier.name;
-  
-  renderItems();
-}
-
-function renderItems() {
-  const s = currentSupplier;
-  const checkedItems = checked[s.id] || [];
-  const total = s.items.length;
-  const done = checkedItems.length;
-  
-  document.getElementById('itemsCount').textContent = `${total} позицій`;
-  document.getElementById('progressFill').style.width = `${(done/total)*100}%`;
-  document.getElementById('progressText').textContent = done === 0 ? '' : `${done} з ${total} перевірено`;
-  
+  document.getElementById('headerEyebrow').textContent = 'Постачальник';
+  document.getElementById('headerTitle').textContent = s.name;
+  document.getElementById('itemsTitle').textContent = s.name;
+  document.getElementById('itemsCount').textContent = `${s.items.length} позицій`;
   const list = document.getElementById('itemsList');
   list.innerHTML = '';
-  
   s.items.forEach((item, i) => {
-    const isChecked = checkedItems.includes(i);
     const row = document.createElement('div');
-    row.className = 'item-row' + (isChecked ? ' checked' : '');
+    row.className = 'item-row';
+    row.style.animationDelay = `${i * 0.022}s`;
     row.innerHTML = `
-      <div class="item-checkbox"></div>
+      <div class="item-num">${String(i + 1).padStart(2, '0')}</div>
       <div class="item-name">${item}</div>
     `;
-    row.onclick = () => toggleItem(i);
     list.appendChild(row);
   });
-}
-
-function toggleItem(index) {
-  const id = currentSupplier.id;
-  if (!checked[id]) checked[id] = [];
-  const idx = checked[id].indexOf(index);
-  if (idx === -1) checked[id].push(index);
-  else checked[id].splice(idx, 1);
-  saveChecked();
-  renderItems();
-  renderSuppliers();
-}
-
-function resetCurrent() {
-  checked[currentSupplier.id] = [];
-  saveChecked();
-  renderItems();
-  renderSuppliers();
+  window.scrollTo(0, 0);
 }
 
 function showSuppliers() {
-  currentSupplier = null;
   document.getElementById('suppliersScreen').style.display = 'block';
   document.getElementById('itemsScreen').style.display = 'none';
   document.getElementById('backBtn').style.display = 'none';
+  document.getElementById('headerEyebrow').textContent = 'Ресторан';
   document.getElementById('headerTitle').textContent = 'Списки закупівлі';
-  document.getElementById('headerSub').textContent = 'Оберіть постачальника';
-  renderSuppliers();
+  window.scrollTo(0, 0);
 }
 
 renderSuppliers();
